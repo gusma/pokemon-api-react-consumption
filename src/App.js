@@ -20,14 +20,17 @@ const App = () => {
       })
   }, []);
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   return (
     <>
-      <input type="text" className="input" placeholder="Pokemon or type" onChange={event => setQuery(event.target.value)} />
-
+      <input type="text" className="input" placeholder="Pokemon or type" onChange={event => setQuery(capitalizeFirstLetter(event.target.value))} />
       <ul className="suggestions">
         {items.length > 0 ?
           items
-            .filter(searchTerm => searchTerm.Name.includes(query) || searchTerm.Types.includes(query) )
+            .filter(searchTerm => searchTerm.Name.includes(query) || searchTerm.Types.includes(query))
             .splice(0, 4)
             .map((pokemon) =>
               <li key={pokemon.Id}>
