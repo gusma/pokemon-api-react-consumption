@@ -10,12 +10,12 @@ const App = () => {
   // - Sort elements first if the match the Name, then if they match the Type
 
   const [items, setItems] = useState([]);
+  const [query, setQuery] = useState([]);
 
   useEffect(() => {
     axios
       .get(`https://api.jsonbin.io/b/608c2722d64cd16802a55013`)
       .then((res) => {
-        console.log(res.data);
         setItems(res.data);
       })
   }, []);
@@ -23,33 +23,31 @@ const App = () => {
 
   return (
     <>
-      <input type="text" className="input" placeholder="Pokemon or type" />
-  
+      <input type="text" className="input" placeholder="Pokemon or type" onChange={event => setQuery(event.target.value)} />
+
       <ul className="suggestions">
         {items.length > 0 ?
           items
-            .splice(0,5)
+            .filter(searchTerm => searchTerm.Name === query)
+            .splice(0, 5)
             .map((pokemon) =>
 
-              <li key={pokemon.Id}> 
-                <img
-                  src={pokemon.img}
-                  alt=""
-                />
+              <li key={pokemon.Id}>
+                <img src={pokemon.img} alt={pokemon.Name} />
                 <div className="info">
                   <h1>
-                    <span className="hl">{pokemon.Name}</span>chu
+                    <span className="hl">{pokemon.Name}</span>
             </h1>
                   <span className={"type " + pokemon.Types.[0].toLowerCase()}>{pokemon.Types.[0]}</span>
-                  { pokemon.Types.[1] && <span className={"type " + pokemon.Types.[1].toLowerCase()}>{pokemon.Types.[1]}</span> }
+                  {pokemon.Types.[1] && <span className={"type " + pokemon.Types.[1].toLowerCase()}>{pokemon.Types.[1]}</span>}
                 </div>
               </li>)
-        :
-        <li>
-          <div className="info">
-            <h1 className="no-results">No results</h1>
-          </div>
-        </li>}
+          :
+          <li>
+            <div className="info">
+              <h1 className="no-results">No results</h1>
+            </div>
+          </li>}
       </ul>
     </>
   );
