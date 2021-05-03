@@ -20,7 +20,6 @@ const App = () => {
       })
   }, []);
 
-
   return (
     <>
       <input type="text" className="input" placeholder="Pokemon or type" onChange={event => setQuery(event.target.value)} />
@@ -28,16 +27,15 @@ const App = () => {
       <ul className="suggestions">
         {items.length > 0 ?
           items
-            .filter(searchTerm => searchTerm.Name === query)
-            .splice(0, 5)
+            .filter(searchTerm => searchTerm.Name.includes(query) || searchTerm.Types.includes(query) )
+            .splice(0, 4)
             .map((pokemon) =>
-
               <li key={pokemon.Id}>
                 <img src={pokemon.img} alt={pokemon.Name} />
                 <div className="info">
                   <h1>
                     <span className="hl">{pokemon.Name}</span>
-            </h1>
+                  </h1>
                   <span className={"type " + pokemon.Types.[0].toLowerCase()}>{pokemon.Types.[0]}</span>
                   {pokemon.Types.[1] && <span className={"type " + pokemon.Types.[1].toLowerCase()}>{pokemon.Types.[1]}</span>}
                 </div>
