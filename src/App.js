@@ -23,18 +23,15 @@ const App = () => {
 
   return (
     <>
-      <label htmlFor="maxCP" className="max-cp">
-        <input type="checkbox" id="maxCP" />
-        <small>Sort by Maximum Combat Points</small>
-      </label>
       <input type="text" className="input" placeholder="Pokemon or type" />
-      {/* <div className="loader"></div> */}
-
+  
       <ul className="suggestions">
         {items.length > 0 ?
-          items.splice(0,5).map((pokemon) =>
-              <li key={pokemon.Id}>
-                {/* this is an example of an item */}
+          items
+            .splice(0,5)
+            .map((pokemon) =>
+
+              <li key={pokemon.Id}> 
                 <img
                   src={pokemon.img}
                   alt=""
@@ -43,8 +40,8 @@ const App = () => {
                   <h1>
                     <span className="hl">{pokemon.Name}</span>chu
             </h1>
-                  <span className="type electric">{pokemon.Types.[0]}</span>
-                  <span className="type normal">{pokemon.Types.[1]}</span>
+                  <span className={"type " + pokemon.Types.[0].toLowerCase()}>{pokemon.Types.[0]}</span>
+                  { pokemon.Types.[1] && <span className={"type " + pokemon.Types.[1].toLowerCase()}>{pokemon.Types.[1]}</span> }
                 </div>
               </li>)
         :
